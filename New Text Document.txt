@@ -1,0 +1,23 @@
+business - SQL - create new table for hours, create new table for attributes
+checkin - cannot udnerstand its importance as of now. IGNORE
+review - Elasticsearch
+tip - SQL
+user - add all details except friends on SQL, friends add on Elasticsearch - Created CSVs
+
+
+business
+prepare new for hours with proper column names - Done
+prepare new for attributes with proper column names
+prepare one main - Done
+
+
+tip - done
+no processing needed, create a file
+
+
+review - done
+create a file, no processing needed
+
+
+user - done
+add all details except friends on SQL, friends add on Elasticsearch - Created CSVs
