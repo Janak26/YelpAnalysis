@@ -24,12 +24,19 @@ add all details except friends on SQL, friends add on Elasticsearch - Created CS
 
 
 
+
+
+
 Data
 business - SQL - Inserted
-tip - ElasticSearch
+tip - ElasticSearch - Inserted
 checkin - 
 user - SQL - Inserted
-review - ElasticSearch
-friends - Elasticsearch
+
+friends - SQL - 1 column user_id, other column with all friends. 1 user_id - friend column per row. SQL Inserted
+
 businessHours - SQL - Inserted
-businessAttributesNew - SQL - 
+
+businessAttributesNew - SQL - Inserted
+
+review - ElasticSearch - SQL - Insert User ID and Text in Elastic, rest all in SQL. SQL inserted. Elastic inserted.

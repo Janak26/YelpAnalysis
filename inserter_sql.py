@@ -2,6 +2,7 @@ import psycopg2
 from shapely.geometry import Point
 import pandas as pd
 import psycopg2.extras
+from datetime import datetime
 
 
 conn_details = psycopg2.connect(
@@ -229,7 +230,7 @@ cursor = conn_details.cursor()
 
 
 
-
+### start of inserting business attributes
 # sql_query = '''CREATE TABLE business_attributes
 # 	(
 # 		business_id VARCHAR(30) NOT NULL PRIMARY KEY,
@@ -314,163 +315,274 @@ def fillNull(varName, varValue):
 	return varValue
 
 
-def insertBusinessAttributes():
-	df = pd.read_csv(r"D:\Projects\YELP\data\businessAttributesNew.csv")
-	allDocs = []
-	for index, row in df.iterrows():
+# def insertBusinessAttributes():
+# 	df = pd.read_csv(r"D:\Projects\YELP\data\businessAttributesNew.csv")
+# 	allDocs = []
+# 	for index, row in df.iterrows():
 		
-		business_id = row['business_id']
+# 		business_id = row['business_id']
 		
-		ByAppointmentOnly = fillNull('ByAppointmentOnly', row['ByAppointmentOnly'])
+# 		ByAppointmentOnly = fillNull('ByAppointmentOnly', row['ByAppointmentOnly'])
 
-		BusinessAcceptsCreditCards = fillNull('BusinessAcceptsCreditCards', row['BusinessAcceptsCreditCards'])
+# 		BusinessAcceptsCreditCards = fillNull('BusinessAcceptsCreditCards', row['BusinessAcceptsCreditCards'])
 
-		BikeParking = fillNull('BikeParking', row['BikeParking'])
+# 		BikeParking = fillNull('BikeParking', row['BikeParking'])
 
-		RestaurantsPriceRange2 = fillNull('RestaurantsPriceRange2', row['RestaurantsPriceRange2'])
+# 		RestaurantsPriceRange2 = fillNull('RestaurantsPriceRange2', row['RestaurantsPriceRange2'])
 
-		CoatCheck = fillNull('CoatCheck', row['CoatCheck'])
+# 		CoatCheck = fillNull('CoatCheck', row['CoatCheck'])
 		
-		RestaurantsTakeOut = fillNull('RestaurantsTakeOut', row['RestaurantsTakeOut'])
+# 		RestaurantsTakeOut = fillNull('RestaurantsTakeOut', row['RestaurantsTakeOut'])
 
-		RestaurantsDelivery = fillNull('RestaurantsDelivery', row['RestaurantsDelivery'])
+# 		RestaurantsDelivery = fillNull('RestaurantsDelivery', row['RestaurantsDelivery'])
 
-		Caters = fillNull('Caters', row['Caters'])
+# 		Caters = fillNull('Caters', row['Caters'])
 
-		WiFi = fillNull('WiFi', row['WiFi'])
+# 		WiFi = fillNull('WiFi', row['WiFi'])
 
-		BusinessParking_garage = fillNull('BusinessParking_garage', row['BusinessParking_garage'])
+# 		BusinessParking_garage = fillNull('BusinessParking_garage', row['BusinessParking_garage'])
 
-		BusinessParking_street = fillNull('BusinessParking_street', row['BusinessParking_street'])
+# 		BusinessParking_street = fillNull('BusinessParking_street', row['BusinessParking_street'])
 
-		BusinessParking_validated = fillNull('BusinessParking_validated', row['BusinessParking_validated'])
+# 		BusinessParking_validated = fillNull('BusinessParking_validated', row['BusinessParking_validated'])
 
-		BusinessParking_lot = fillNull('BusinessParking_lot', row['BusinessParking_lot'])
+# 		BusinessParking_lot = fillNull('BusinessParking_lot', row['BusinessParking_lot'])
 
-		BusinessParking_valet = fillNull('BusinessParking_valet', row['BusinessParking_valet'])
+# 		BusinessParking_valet = fillNull('BusinessParking_valet', row['BusinessParking_valet'])
 
-		WheelchairAccessible = fillNull('WheelchairAccessible', row['WheelchairAccessible'])
+# 		WheelchairAccessible = fillNull('WheelchairAccessible', row['WheelchairAccessible'])
 
-		HappyHour = fillNull('HappyHour', row['HappyHour'])
+# 		HappyHour = fillNull('HappyHour', row['HappyHour'])
 
-		OutdoorSeating = fillNull('OutdoorSeating', row['OutdoorSeating'])
+# 		OutdoorSeating = fillNull('OutdoorSeating', row['OutdoorSeating'])
 
-		HasTV = fillNull('HasTV', row['HasTV'])
+# 		HasTV = fillNull('HasTV', row['HasTV'])
 
-		RestaurantsReservations = fillNull('RestaurantsReservations', row['RestaurantsReservations'])
+# 		RestaurantsReservations = fillNull('RestaurantsReservations', row['RestaurantsReservations'])
 
-		DogsAllowed = fillNull('DogsAllowed', row['DogsAllowed'])
+# 		DogsAllowed = fillNull('DogsAllowed', row['DogsAllowed'])
 
-		Alcohol = fillNull('Alcohol', row['Alcohol'])
+# 		Alcohol = fillNull('Alcohol', row['Alcohol'])
 
-		GoodForKids = fillNull('GoodForKids', row['GoodForKids'])
+# 		GoodForKids = fillNull('GoodForKids', row['GoodForKids'])
 
-		RestaurantsAttire = fillNull('RestaurantsAttire', row['RestaurantsAttire'])
+# 		RestaurantsAttire = fillNull('RestaurantsAttire', row['RestaurantsAttire'])
 
-		RestaurantsTableService = fillNull('RestaurantsTableService', row['RestaurantsTableService'])
+# 		RestaurantsTableService = fillNull('RestaurantsTableService', row['RestaurantsTableService'])
 
-		RestaurantsGoodForGroups = fillNull('RestaurantsGoodForGroups', row['RestaurantsGoodForGroups'])
+# 		RestaurantsGoodForGroups = fillNull('RestaurantsGoodForGroups', row['RestaurantsGoodForGroups'])
 
-		DriveThru = fillNull('DriveThru', row['DriveThru'])
+# 		DriveThru = fillNull('DriveThru', row['DriveThru'])
 
-		NoiseLevel = fillNull('NoiseLevel', row['NoiseLevel'])
+# 		NoiseLevel = fillNull('NoiseLevel', row['NoiseLevel'])
 
-		Ambience_romantic = fillNull('Ambience_romantic', row['Ambience_romantic'])
+# 		Ambience_romantic = fillNull('Ambience_romantic', row['Ambience_romantic'])
 
-		Ambience_intimate = fillNull('Ambience_intimate', row['Ambience_intimate'])
+# 		Ambience_intimate = fillNull('Ambience_intimate', row['Ambience_intimate'])
 
-		Ambience_touristy = fillNull('Ambience_touristy', row['Ambience_touristy'])
+# 		Ambience_touristy = fillNull('Ambience_touristy', row['Ambience_touristy'])
 		
-		Ambience_hipster = fillNull('Ambience_hipster', row['Ambience_hipster'])
+# 		Ambience_hipster = fillNull('Ambience_hipster', row['Ambience_hipster'])
 		
-		Ambience_divey = fillNull('Ambience_divey', row['Ambience_divey'])
+# 		Ambience_divey = fillNull('Ambience_divey', row['Ambience_divey'])
 		
-		Ambience_classy = fillNull('Ambience_classy', row['Ambience_classy'])
+# 		Ambience_classy = fillNull('Ambience_classy', row['Ambience_classy'])
 		
-		Ambience_trendy = fillNull('Ambience_trendy', row['Ambience_trendy'])
+# 		Ambience_trendy = fillNull('Ambience_trendy', row['Ambience_trendy'])
 		
-		Ambience_upscale = fillNull('Ambience_upscale', row['Ambience_upscale'])
+# 		Ambience_upscale = fillNull('Ambience_upscale', row['Ambience_upscale'])
 		
-		Ambience_casual = fillNull('Ambience_casual', row['Ambience_casual'])
+# 		Ambience_casual = fillNull('Ambience_casual', row['Ambience_casual'])
 		
-		GoodForMeal_dessert = fillNull('GoodForMeal_dessert', row['GoodForMeal_dessert'])
+# 		GoodForMeal_dessert = fillNull('GoodForMeal_dessert', row['GoodForMeal_dessert'])
 		
-		GoodForMeal_latenight = fillNull('GoodForMeal_latenight', row['GoodForMeal_latenight'])
+# 		GoodForMeal_latenight = fillNull('GoodForMeal_latenight', row['GoodForMeal_latenight'])
 		
-		GoodForMeal_lunch = fillNull('GoodForMeal_lunch', row['GoodForMeal_lunch'])
+# 		GoodForMeal_lunch = fillNull('GoodForMeal_lunch', row['GoodForMeal_lunch'])
 		
-		GoodForMeal_dinner = fillNull('GoodForMeal_dinner', row['GoodForMeal_dinner'])
+# 		GoodForMeal_dinner = fillNull('GoodForMeal_dinner', row['GoodForMeal_dinner'])
 		
-		GoodForMeal_brunch = fillNull('GoodForMeal_brunch', row['GoodForMeal_brunch'])
+# 		GoodForMeal_brunch = fillNull('GoodForMeal_brunch', row['GoodForMeal_brunch'])
 		
-		GoodForMeal_breakfast = fillNull('GoodForMeal_breakfast', row['GoodForMeal_breakfast'])
+# 		GoodForMeal_breakfast = fillNull('GoodForMeal_breakfast', row['GoodForMeal_breakfast'])
 		
-		BusinessAcceptsBitcoin = fillNull('BusinessAcceptsBitcoin', row['BusinessAcceptsBitcoin'])
+# 		BusinessAcceptsBitcoin = fillNull('BusinessAcceptsBitcoin', row['BusinessAcceptsBitcoin'])
 		
-		Smoking = fillNull('Smoking', row['Smoking'])
+# 		Smoking = fillNull('Smoking', row['Smoking'])
 		
-		Music_dj = fillNull('Music_dj', row['Music_dj'])
+# 		Music_dj = fillNull('Music_dj', row['Music_dj'])
 		
-		Music_background_music = fillNull('Music_background_music', row['Music_background_music'])
+# 		Music_background_music = fillNull('Music_background_music', row['Music_background_music'])
 		
-		Music_no_music = fillNull('Music_no_music', row['Music_no_music'])
+# 		Music_no_music = fillNull('Music_no_music', row['Music_no_music'])
 		
-		Music_jukebox = fillNull('Music_jukebox', row['Music_jukebox'])
+# 		Music_jukebox = fillNull('Music_jukebox', row['Music_jukebox'])
 		
-		Music_live = fillNull('Music_live', row['Music_live'])
+# 		Music_live = fillNull('Music_live', row['Music_live'])
 		
-		Music_video = fillNull('Music_video', row['Music_video'])
+# 		Music_video = fillNull('Music_video', row['Music_video'])
 		
-		Music_karaoke = fillNull('Music_karaoke', row['Music_karaoke'])
+# 		Music_karaoke = fillNull('Music_karaoke', row['Music_karaoke'])
 		
-		GoodForDancing = fillNull('GoodForDancing', row['GoodForDancing'])
+# 		GoodForDancing = fillNull('GoodForDancing', row['GoodForDancing'])
 		
-		AcceptsInsurance = fillNull('AcceptsInsurance', row['AcceptsInsurance'])
+# 		AcceptsInsurance = fillNull('AcceptsInsurance', row['AcceptsInsurance'])
 		
-		BestNights_monday = fillNull('BestNights_monday', row['BestNights_monday'])
+# 		BestNights_monday = fillNull('BestNights_monday', row['BestNights_monday'])
 		
-		BestNights_tuesday = fillNull('BestNights_tuesday', row['BestNights_tuesday'])
+# 		BestNights_tuesday = fillNull('BestNights_tuesday', row['BestNights_tuesday'])
 		
-		BestNights_friday = fillNull('BestNights_friday', row['BestNights_friday'])
+# 		BestNights_friday = fillNull('BestNights_friday', row['BestNights_friday'])
 		
-		BestNights_wednesday = fillNull('BestNights_wednesday', row['BestNights_wednesday'])
+# 		BestNights_wednesday = fillNull('BestNights_wednesday', row['BestNights_wednesday'])
 		
-		BestNights_thursday = fillNull('BestNights_thursday', row['BestNights_thursday'])
+# 		BestNights_thursday = fillNull('BestNights_thursday', row['BestNights_thursday'])
 		
-		BestNights_sunday = fillNull('BestNights_sunday', row['BestNights_sunday'])
+# 		BestNights_sunday = fillNull('BestNights_sunday', row['BestNights_sunday'])
 		
-		BestNights_saturday = fillNull('BestNights_saturday', row['BestNights_saturday'])
+# 		BestNights_saturday = fillNull('BestNights_saturday', row['BestNights_saturday'])
 		
-		BYOB = fillNull('BYOB', row['BYOB'])
+# 		BYOB = fillNull('BYOB', row['BYOB'])
 		
-		Corkage = fillNull('Corkage', row['Corkage'])
+# 		Corkage = fillNull('Corkage', row['Corkage'])
 
 		
 
 
-		docSingle = (business_id, ByAppointmentOnly, BusinessAcceptsCreditCards, BikeParking, RestaurantsPriceRange2,
-			CoatCheck, RestaurantsTakeOut, RestaurantsDelivery, Caters, WiFi, BusinessParking_garage, BusinessParking_street,
-			BusinessParking_validated, BusinessParking_lot, BusinessParking_valet, WheelchairAccessible, HappyHour,
-			OutdoorSeating, HasTV, RestaurantsReservations, DogsAllowed, Alcohol, GoodForKids, RestaurantsAttire,
-			RestaurantsTableService, RestaurantsGoodForGroups, DriveThru, NoiseLevel, Ambience_romantic, Ambience_intimate,
-			Ambience_touristy, Ambience_hipster, Ambience_divey, Ambience_classy, Ambience_trendy, Ambience_upscale,
-			Ambience_casual, GoodForMeal_dessert, GoodForMeal_latenight, GoodForMeal_lunch, GoodForMeal_dinner,
-			GoodForMeal_brunch, GoodForMeal_breakfast, BusinessAcceptsBitcoin, Smoking, Music_dj, Music_background_music,
-			Music_no_music, Music_jukebox, Music_live, Music_video, Music_karaoke, GoodForDancing, AcceptsInsurance,
-			BestNights_monday, BestNights_tuesday, BestNights_friday, BestNights_wednesday, BestNights_thursday,
-			BestNights_sunday, BestNights_saturday, BYOB, Corkage)
+# 		docSingle = (business_id, ByAppointmentOnly, BusinessAcceptsCreditCards, BikeParking, RestaurantsPriceRange2,
+# 			CoatCheck, RestaurantsTakeOut, RestaurantsDelivery, Caters, WiFi, BusinessParking_garage, BusinessParking_street,
+# 			BusinessParking_validated, BusinessParking_lot, BusinessParking_valet, WheelchairAccessible, HappyHour,
+# 			OutdoorSeating, HasTV, RestaurantsReservations, DogsAllowed, Alcohol, GoodForKids, RestaurantsAttire,
+# 			RestaurantsTableService, RestaurantsGoodForGroups, DriveThru, NoiseLevel, Ambience_romantic, Ambience_intimate,
+# 			Ambience_touristy, Ambience_hipster, Ambience_divey, Ambience_classy, Ambience_trendy, Ambience_upscale,
+# 			Ambience_casual, GoodForMeal_dessert, GoodForMeal_latenight, GoodForMeal_lunch, GoodForMeal_dinner,
+# 			GoodForMeal_brunch, GoodForMeal_breakfast, BusinessAcceptsBitcoin, Smoking, Music_dj, Music_background_music,
+# 			Music_no_music, Music_jukebox, Music_live, Music_video, Music_karaoke, GoodForDancing, AcceptsInsurance,
+# 			BestNights_monday, BestNights_tuesday, BestNights_friday, BestNights_wednesday, BestNights_thursday,
+# 			BestNights_sunday, BestNights_saturday, BYOB, Corkage)
 
-		sql_query = '''INSERT INTO business_attributes VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
-		cursor.execute(sql_query, docSingle)
+# 		sql_query = '''INSERT INTO business_attributes VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)'''
+# 		cursor.execute(sql_query, docSingle)
 
-		if index%10000 == 0:
-			print(index)
-			conn_details.commit()
+# 		if index%10000 == 0:
+# 			print(index)
+# 			conn_details.commit()
+# 	conn_details.commit()
+# 	cursor.close()
+# 	conn_details.close()
+### end of inserting business attributes
+
+
+
+
+# def dateConvert(value):
+# 	value = datetime.strptime(value, "%Y-%m-%d %H:%M:%S")
+# 	return value
+
+
+
+### start of inserting reviews
+# sql_query = '''CREATE TABLE reviews
+# 	(
+# 		review_id VARCHAR(30) NOT NULL PRIMARY KEY,
+# 		user_id VARCHAR(30),
+# 		business_id VARCHAR(30),
+# 		stars INTEGER,
+# 		useful INTEGER,
+# 		funny INTEGER,
+# 		cool INTEGER,
+# 		review_datetime TIMESTAMP
+# 	)'''
+
+
+# def insertReviews():
+# 	df = pd.read_csv(r"D:\Projects\YELP\data\review.csv")
+# 	print('loaded df')
+# 	df.drop(columns=['text'], inplace=True)
+# 	print('dropped column', df.shape)
+# 	allDocs = []
+# 	for index, row in df.iterrows():
+# 		review_id = row['review_id']
+# 		user_id = row['user_id']
+# 		business_id = row['business_id']
+# 		stars = row['stars']
+# 		useful = row['useful']
+# 		funny = row['funny']
+# 		cool = row['cool']
+# 		review_datetime = row['date']
+		
+		
+# 		docSingle = (review_id, user_id, business_id, stars, useful, funny, cool, review_datetime)
+
+# 		sql_query = '''INSERT INTO reviews VALUES(%s, %s, %s, %s, %s, %s, %s, %s)'''
+# 		cursor.execute(sql_query, docSingle)
+
+# 		if index%10000 == 0:
+# 			print(index)
+# 			conn_details.commit()
+# 	conn_details.commit()
+# 	cursor.close()
+# 	conn_details.close()
+### end of inserting reviews details
+
+
+
+
+### start of inserting friends
+# sql_query = '''CREATE TABLE friends
+# 	(
+# 		user_id VARCHAR(30),
+# 		friend_id VARCHAR(30)
+# 	)'''
+
+
+# def insertFriends():
+# 	df = pd.read_csv(r"D:\Projects\YELP\data\friends_0.csv")
+# 	print(df.shape)
+# 	allDocs = []
+# 	for index, row in df.iterrows():
+# 		user_id = row['user_id']
+# 		friend_id = row['friend_id']
+		
+# 		docSingle = (user_id, friend_id)
+
+# 		sql_query = '''INSERT INTO friends VALUES(%s, %s)'''
+# 		cursor.execute(sql_query, docSingle)
+
+# 		if index%10000 == 0:
+# 			print(index)
+# 			conn_details.commit()
+# 	conn_details.commit()
+# 	cursor.close()
+# 	conn_details.close()
+### end of inserting friends
+
+
+
+def insertFriends():
+	# df = pd.read_csv(r"D:\Projects\YELP\data\friends_1800000.csv")
+	# print(df.shape)
+	f = open(r"D:\Projects\YELP\data\friends_1800000.csv", 'r')
+	cursor.copy_from(f, 'friends', sep=",")
 	conn_details.commit()
 	cursor.close()
 	conn_details.close()
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+insertFriends()
 
 # cursor.execute(sql_query)
 # conn_details.commit()
